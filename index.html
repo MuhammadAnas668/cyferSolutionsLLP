@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyfer Solutions | Beyond the Code</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script>
+      // Theme Management (Supports Local Storage & System Preference)
+      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            animation: {
+              'blob': 'blob 7s infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'shine': 'shine 4s linear infinite',
+            },
+            keyframes: {
+              blob: {
+                '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
+              },
+              shine: {
+                'to': { backgroundPosition: '200% center' }
+              }
+            }
+          },
+        },
+      };
+    </script>
+
+    <style>
+      .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+      .dark .glass { background: rgba(15, 23, 42, 0.7); }
+      
+      .bubble { position: absolute; border-radius: 50%; filter: blur(60px); z-index: -1; opacity: 0.35; }
+      
+      /* Shining Text Effect */
+      .shimmer-text {
+        background: linear-gradient(to right, #4f46e5 20%, #10b981 40%, #ffffff 50%, #10b981 60%, #4f46e5 80%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+    </style>
+  </head>
+
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-500 overflow-x-hidden">
+    
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+      <div class="bubble bg-indigo-500 w-96 h-96 -top-20 -left-20 animate-blob"></div>
+      <div class="bubble bg-emerald-500 w-80 h-80 top-1/2 -right-20 animate-blob" style="animation-delay: 2s;"></div>
+      <div class="bubble bg-purple-500 w-72 h-72 bottom-10 left-1/4 animate-blob" style="animation-delay: 4s;"></div>
+    </div>
+
+    <header class="sticky top-4 z-50 mx-auto max-w-6xl px-4">
+      <nav class="glass border border-white/20 dark:border-slate-800 rounded-2xl px-6 py-3 flex items-center justify-between shadow-lg">
+        <a href="index.html" class="flex items-center gap-2 group">
+          <div class="bg-indigo-600 p-2 rounded-lg group-hover:rotate-12 transition-transform">
+            <i class="fas fa-terminal text-white"></i>
+          </div>
+          <span class="font-bold text-xl tracking-tight">Cyfer Solutions</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8 text-sm font-semibold">
+          <a href="index.html" class="text-indigo-600">Home</a>
+          <a href="about.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">About</a>
+            <a href="services.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Services</a>
+          <a href="portfolio.html" class="hover:text-indigo-600 transition-colors">Portfolio</a>
+          <a href="contact.html" class="hover:text-indigo-600 transition-colors">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <button id="theme-toggle" class="p-2.5 bg-slate-100 dark:bg-slate-800 rounded-xl hover:ring-2 ring-indigo-500 transition-all outline-none">
+            <i id="theme-icon" class="fas fa-moon text-slate-600 dark:text-yellow-400"></i>
+          </button>
+          <a href="contact.html" class="hidden sm:block bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-indigo-500 shadow-lg transition-all active:scale-95">Get Started</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="max-w-6xl mx-auto px-4 pt-24 pb-32">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div data-aos="fade-up">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase mb-6 tracking-widest">Innovation Meets Code</span>
+            <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">
+              Beyond the Code - <br>
+              <span class="shimmer-text animate-shine inline-block">Decoding Growth</span>
+            </h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 mb-10 max-w-md">Tailored digital solutions designed to scale your business in the modern era.</p>
+            <div class="flex flex-wrap gap-4">
+              <a href="contact.html" class="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl hover:bg-indigo-500 transition-all hover:-translate-y-1">Start Your Journey</a>
+              <a href="about.html" class="px-8 py-4 glass border border-slate-200 dark:border-slate-800 rounded-2xl font-bold hover:bg-white dark:hover:bg-slate-800 transition-all">Learn More</a>
+                <a href="services.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Services</a>
+            </div>
+          </div>
+          
+          <div class="relative animate-float" data-aos="zoom-in">
+             <div class="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-[3rem] blur-2xl opacity-20"></div>
+             <div class="relative glass p-2 rounded-[2.5rem] border border-white/20 dark:border-slate-800 shadow-2xl overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=800&q=80" class="rounded-[2rem] group-hover:scale-105 transition-transform duration-700" alt="Dashboard Visual">
+                <div class="absolute bottom-6 right-6 bg-white/90 dark:bg-slate-900/90 px-4 py-2 rounded-xl border border-white/20 shadow-lg text-xs font-bold">
+                  ⚡ 100% Client Satisfaction
+                </div>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-white/30 dark:bg-slate-900/30 py-24 border-y border-slate-200 dark:border-slate-800">
+        <div class="max-w-6xl mx-auto px-4">
+          <h2 class="text-4xl font-black text-center mb-16" data-aos="fade-down">Our Development Process</h2>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="text-center group" data-aos="fade-up" data-aos-delay="100">
+              <div class="w-20 h-20 bg-indigo-600 text-white rounded-[2rem] flex items-center justify-center text-3xl mx-auto mb-6 group-hover:rotate-12 transition-all shadow-indigo-500/30 shadow-2xl"><i class="fas fa-search"></i></div>
+              <h3 class="font-bold text-xl mb-2">Analyze</h3>
+              <p class="text-slate-500 text-sm">Deep research and requirement gathering.</p>
+            </div>
+            <div class="text-center group" data-aos="fade-up" data-aos-delay="200">
+              <div class="w-20 h-20 bg-emerald-500 text-white rounded-[2rem] flex items-center justify-center text-3xl mx-auto mb-6 group-hover:rotate-12 transition-all shadow-emerald-500/30 shadow-2xl"><i class="fas fa-pen-nib"></i></div>
+              <h3 class="font-bold text-xl mb-2">Design</h3>
+              <p class="text-slate-500 text-sm">Crafting intuitive UI/UX experiences.</p>
+            </div>
+            <div class="text-center group" data-aos="fade-up" data-aos-delay="300">
+              <div class="w-20 h-20 bg-purple-600 text-white rounded-[2rem] flex items-center justify-center text-3xl mx-auto mb-6 group-hover:rotate-12 transition-all shadow-purple-500/30 shadow-2xl"><i class="fas fa-laptop-code"></i></div>
+              <h3 class="font-bold text-xl mb-2">Develop</h3>
+              <p class="text-slate-500 text-sm">Clean code using modern tech stacks.</p>
+            </div>
+            <div class="text-center group" data-aos="fade-up" data-aos-delay="400">
+              <div class="w-20 h-20 bg-pink-600 text-white rounded-[2rem] flex items-center justify-center text-3xl mx-auto mb-6 group-hover:rotate-12 transition-all shadow-pink-500/30 shadow-2xl"><i class="fas fa-rocket"></i></div>
+              <h3 class="font-bold text-xl mb-2">Deploy</h3>
+              <p class="text-slate-500 text-sm">Testing and launching to the world.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-6xl mx-auto px-4 py-24">
+        <h2 class="text-4xl font-black text-center mb-16" data-aos="fade-down">Our Core Expertise</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="glass p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all group" data-aos="zoom-in">
+            <i class="fas fa-code text-3xl text-indigo-600 mb-6 group-hover:scale-110 transition-transform block"></i>
+            <h3 class="font-bold text-2xl mb-3">Web Solutions</h3>
+            <p class="text-slate-500 leading-relaxed">Modern, fast, and SEO-optimized web applications for your brand.</p>
+          </div>
+          <div class="glass p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all group" data-aos="zoom-in" data-aos-delay="100">
+            <i class="fas fa-mobile-alt text-3xl text-emerald-500 mb-6 group-hover:scale-110 transition-transform block"></i>
+            <h3 class="font-bold text-2xl mb-3">Mobile Apps</h3>
+            <p class="text-slate-500 leading-relaxed">Native-feel applications for iOS and Android with smooth UI.</p>
+          </div>
+          <div class="glass p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 hover:border-purple-600 transition-all group" data-aos="zoom-in" data-aos-delay="200">
+            <i class="fas fa-brain text-3xl text-purple-600 mb-6 group-hover:scale-110 transition-transform block"></i>
+            <h3 class="font-bold text-2xl mb-3">AI & Automate</h3>
+            <p class="text-slate-500 leading-relaxed">Integrating smart AI tools to automate your business workflow.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-5xl mx-auto px-4 pb-24 text-center">
+        <div class="glass grid grid-cols-2 md:grid-cols-3 gap-12 p-12 rounded-[3rem] border border-white/20 shadow-2xl">
+          <div><h4 class="text-5xl font-black text-indigo-600 mb-2">150+</h4><p class="text-xs font-bold uppercase tracking-widest text-slate-400">Successful Launches</p></div>
+          <div><h4 class="text-5xl font-black text-emerald-500 mb-2">50+</h4><p class="text-xs font-bold uppercase tracking-widest text-slate-400">Tech Experts</p></div>
+          <div class="col-span-2 md:col-span-1"><h4 class="text-5xl font-black text-purple-600 mb-2">99%</h4><p class="text-xs font-bold uppercase tracking-widest text-slate-400">Happy Partners</p></div>
+        </div>
+      </section>
+    </main>
+
+<footer class="relative mt-20 bg-slate-900 text-slate-300 overflow-hidden">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-50"></div>
+  
+  <div class="max-w-6xl mx-auto px-4 pt-20 pb-10">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+      
+      <div class="md:col-span-2">
+        <a href="index.html" class="flex items-center gap-2 mb-6 group">
+          <div class="bg-indigo-600 p-2 rounded-lg group-hover:rotate-12 transition-transform">
+            <i class="fas fa-terminal text-white"></i>
+          </div>
+          <span class="font-bold text-2xl tracking-tight text-white">Cyfer Solutions</span>
+        </a>
+        <p class="mb-8 max-w-sm text-slate-400 leading-relaxed">
+          Transforming ideas into digital reality. Join our newsletter to get latest tech insights and project updates.
+        </p>
+        <div class="flex max-w-sm gap-2">
+          <input type="email" placeholder="Your email address" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 focus:ring-2 ring-indigo-500 outline-none transition-all">
+          <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold transition-all active:scale-95">Join</button>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-lg mb-6">Explore</h4>
+        <ul class="space-y-4 text-sm">
+          <li><a href="index.html" class="hover:text-indigo-400 transition-colors">Home</a></li>
+          <li><a href="about.html" class="hover:text-indigo-400 transition-colors">Our Vision</a></li>
+          <li>  <a href="services.html" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Services</a></li>
+          <li><a href="portfolio.html" class="hover:text-indigo-400 transition-colors">Featured Projects</a></li>
+          <li><a href="contact.html" class="hover:text-indigo-400 transition-colors">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold text-lg mb-6">Get in Touch</h4>
+        <ul class="space-y-4 text-sm">
+          <li class="flex items-center gap-3"><i class="fas fa-envelope text-indigo-500"></i> hello@cyfer.solutions</li>
+          <li class="flex items-center gap-3"><i class="fas fa-location-dot text-indigo-500"></i> Silicon Valley, CA</li>
+          <li class="flex gap-4 pt-4 text-xl">
+            <a href="#" class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center hover:bg-indigo-600 hover:-translate-y-1 transition-all text-white"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center hover:bg-indigo-600 hover:-translate-y-1 transition-all text-white"><i class="fab fa-github"></i></a>
+            <a href="#" class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center hover:bg-indigo-600 hover:-translate-y-1 transition-all text-white"><i class="fab fa-twitter"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+      <p>© 2026 Cyfer Solutions | Beyond the Code. Built with ❤️ for Innovators.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({ duration: 1000, once: true });
+
+      // Theme Toggle Logic
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+
+      function updateUI() {
+        if (document.documentElement.classList.contains('dark')) {
+          themeIcon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+          themeIcon.classList.replace('fa-sun', 'fa-moon');
+        }
+      }
+      updateUI();
+
+      themeToggle.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        updateUI();
+      });
+    </script>
+  </body>
+</html>
