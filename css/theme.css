@@ -1,0 +1,105 @@
+/* CYFER SOLUTIONS - Shared Theme (Dark Blue, Red, White) */
+:root {
+  --cyfer-blue: #1e3a5f;
+  --cyfer-blue-light: #2563eb;
+  --cyfer-blue-hover: #1d4ed8;
+  --cyfer-red: #dc2626;
+  --cyfer-red-light: #ef4444;
+  --cyfer-bg-dark: #0f172a;
+  --cyfer-text-light: #e2e8f0;
+  --cyfer-accent: #6366f1;
+}
+
+/* Theme check - runs before HTML */
+.glass { 
+  background: rgba(255, 255, 255, 0.7); 
+  backdrop-filter: blur(12px); 
+  -webkit-backdrop-filter: blur(12px); 
+}
+.dark .glass { 
+  background: rgba(15, 23, 42, 0.7); 
+}
+
+.bubble { 
+  position: absolute; 
+  border-radius: 50%; 
+  filter: blur(60px); 
+  z-index: -1; 
+  opacity: 0.35; 
+}
+
+/* Shimmer / Shine */
+@keyframes shine { to { background-position: 200% center; } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+@keyframes blob { 
+  0%, 100% { transform: translate(0, 0) scale(1); } 
+  33% { transform: translate(40px, -60px) scale(1.2); } 
+  66% { transform: translate(-30px, 30px) scale(0.8); } 
+}
+@keyframes pulse-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+.animate-shine {
+  background: linear-gradient(to right, var(--cyfer-blue) 20%, var(--cyfer-red) 40%, #fff 50%, var(--cyfer-red) 60%, var(--cyfer-blue) 80%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 5s linear infinite;
+}
+.animate-blob { animation: blob 10s infinite alternate; }
+.animate-float { animation: float 5s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* Nav: Only ONE active at a time - use .nav-active class */
+.nav-link { transition: color 0.2s; }
+.nav-link.nav-active { color: var(--cyfer-accent) !important; }
+.nav-link:hover:not(.nav-active) { color: var(--cyfer-blue-light) !important; }
+
+/* Service dropdown - blue hover */
+select#service option:hover,
+select#service option:focus,
+.service-select option:hover { background: var(--cyfer-blue-hover) !important; }
+select#service option:checked { background: var(--cyfer-blue-hover); color: white; }
+
+/* Custom select styling for blue hover on options */
+.service-select-wrapper select option:hover,
+.service-select-wrapper select option:focus { background: var(--cyfer-blue-hover); }
+select.cyfer-service-select { background-color: var(--cyfer-bg-dark); border-color: var(--cyfer-accent); }
+select.cyfer-service-select option { padding: 12px; }
+select.cyfer-service-select option:hover { background: var(--cyfer-blue-hover) !important; color: white !important; }
+
+/* Extra animations for About etc */
+@keyframes typewriter { from { width: 0; } to { width: 100%; } }
+@keyframes bounce-soft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+.typewriter { overflow: hidden; border-right: 3px solid var(--cyfer-blue); white-space: nowrap; animation: typewriter 3s steps(40) 1s forwards; }
+.animate-bounce-soft { animation: bounce-soft 2s infinite; }
+.animate-gradient-shift { background-size: 200% 200%; animation: gradient-shift 5s ease infinite; }
+
+/* Services page */
+.service-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.service-card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+.service-icon { transition: all 0.5s ease; }
+.service-card:hover .service-icon { transform: scale(1.1) rotate(5deg); }
+.feature-badge { background: linear-gradient(135deg, var(--cyfer-blue), var(--cyfer-red)); }
+.process-step::before { content: ''; position: absolute; width: 40px; height: 40px; background: rgba(30, 58, 95, 0.1); border-radius: 50%; z-index: -1; animation: pulse-glow 2s infinite; }
+.tech-stack-tag { transition: all 0.3s ease; }
+.tech-stack-tag:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
+
+/* Contact page */
+.contact-input { transition: all 0.3s ease; }
+.contact-input:focus { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(30, 58, 95, 0.3); }
+.contact-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.contact-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25); }
+.submit-btn { background: linear-gradient(135deg, var(--cyfer-blue), var(--cyfer-red)); transition: all 0.3s ease; }
+.submit-btn:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -12px rgba(30, 58, 95, 0.4); }
+
+/* Portfolio */
+.project-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.project-card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+.project-image { transition: transform 0.7s ease; height: 250px; object-fit: cover; width: 100%; }
+.project-card:hover .project-image { transform: scale(1.08); }
+.tech-tag { background: rgba(30, 58, 95, 0.1); border: 1px solid rgba(30, 58, 95, 0.2); transition: all 0.3s ease; }
+.tech-tag:hover { background: rgba(30, 58, 95, 0.2); transform: translateY(-2px); }
+.filter-btn.active { background: var(--cyfer-blue); color: white; box-shadow: 0 10px 15px -3px rgba(30, 58, 95, 0.3); }
+.counter-number { font-variant-numeric: tabular-nums; }
