@@ -1,112 +1,50 @@
 /**
- * CYFER SOLUTIONS - App Script (Optimized)
+ * CYFER SOLUTIONS - Shared App Script
+ * Dynamic header/footer, theme, nav active state, service dropdown hover
  */
 
-// Theme initialization
+// Theme - run before DOM ready
 (function initTheme() {
-  const stored = localStorage.getItem('theme');
-  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const isDark = stored === 'dark' || (!stored && dark);
-  document.documentElement.classList.toggle('dark', isDark);
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  if (localStorage.getItem('theme') === 'dark' || 
+      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+    localStorage.setItem('theme','dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+    localStorage.setItem('theme','light')
+  }
 })();
 
-// Load components
+// Load header and footer (requires HTTP server for fetch - use: npx serve)
 async function loadComponents() {
-  const header = document.getElementById('header-placeholder');
-  const footer = document.getElementById('footer-placeholder');
-  const base = window.location.pathname.split('/').slice(0, -1).join('/') + '/';
+  const headerEl = document.getElementById('header-placeholder');
+  const footerEl = document.getElementById('footer-placeholder');
+  
+  const getBase = () => {
+    const path = window.location.pathname || '';
+    const idx = path.lastIndexOf('/');
+    return idx >= 0 ? path.substring(0, idx + 1) : './';
+  };
+  const base = getBase();
   
   try {
-    if (header) {
+    if (headerEl) {
       const res = await fetch(base + 'components/header.html');
-      if (res.ok) header.outerHTML = await res.text();
+      if (res.ok) headerEl.outerHTML = await res.text();
     }
-    if (footer) {
+    if (footerEl) {
       const res = await fetch(base + 'components/footer.html');
-      if (res.ok) footer.outerHTML = await res.text();
+      if (res.ok) footerEl.outerHTML = await res.text();
     }
   } catch (e) {
-    console.warn('Components not loaded. Run via HTTP server.');
-    createFallback();
+    console.warn('Run via HTTP server (e.g. npx serve) for dynamic header/footer:', e);
   }
   initApp();
 }
 
-// Fallback components
-function createFallback() {
-  const header = document.getElementById('header-placeholder');
-  const footer = document.getElementById('footer-placeholder');
-  
-  if (header) header.outerHTML = `<header class="sticky top-4 z-50 mx-auto max-w-6xl px-4">
-    <nav class="glass border border-white dark:border-slate-800 rounded-2xl px-6 py-3 flex items-center justify-between shadow-lg bg-white dark:bg-slate-900">
-      <a href="index.html" class="flex items-center gap-2 group">
-        <img src="assets/image.png" alt="Cyfer" class="rounded-2xl h-14 w-auto min-w-[180px] max-w-[220px] object-contain drop-shadow-sm hover:scale-105 transition-all dark:hidden">
-        <img src="assets/darkmoodlogo.png" alt="Cyfer" class="rounded-2xl h-14 w-auto min-w-[180px] max-w-[220px] object-contain drop-shadow-sm hover:scale-105 transition-all hidden dark:block">
-      </a>
-      <div class="hidden md:flex items-center gap-8 text-sm font-semibold">
-        <a href="index.html" class="nav-link text-slate-700 dark:text-slate-300 hover:text-[#1e3a5f] dark:hover:text-blue-400" data-page="index">Home</a>
-        <a href="about.html" class="nav-link text-slate-700 dark:text-slate-300 hover:text-[#1e3a5f] dark:hover:text-blue-400" data-page="about">About</a>
-        <a href="services.html" class="nav-link text-slate-700 dark:text-slate-300 hover:text-[#1e3a5f] dark:hover:text-blue-400" data-page="services">Services</a>
-        <a href="portfolio.html" class="nav-link text-slate-700 dark:text-slate-300 hover:text-[#1e3a5f] dark:hover:text-blue-400" data-page="portfolio">Portfolio</a>
-        <a href="contact.html" class="nav-link text-slate-700 dark:text-slate-300 hover:text-[#1e3a5f] dark:hover:text-blue-400" data-page="contact">Contact</a>
-      </div>
-      <div class="flex items-center gap-4">
-        <button id="theme-toggle" class="p-2.5 bg-slate-100 dark:bg-slate-800 rounded-xl hover:ring-2 ring-[#1e3a5f]">
-          <i id="theme-icon" class="fas fa-moon text-slate-600 dark:text-yellow-400"></i>
-        </button>
-        <a href="contact.html" class="hidden sm:block bg-[#1e3a5f] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-xl text-sm font-bold">Get Started</a>
-      </div>
-    </nav>
-  </header>`;
-  
-  if (footer) footer.outerHTML = `<footer class="relative mt-20 bg-[#0f172a] text-slate-300">
-    <div class="max-w-6xl mx-auto px-4 pt-20 pb-10">
-      <div class="grid md:grid-cols-4 gap-12 mb-16">
-        <div class="md:col-span-2">
-          <a href="index.html" class="block mb-6"><span class="text-2xl font-bold text-white">Cyfer Solutions</span></a>
-          <p class="mb-8 max-w-sm text-slate-400">Transforming ideas into digital reality.</p>
-          <div class="flex max-w-sm gap-2">
-            <input type="email" placeholder="Email" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 outline-none">
-            <button class="bg-[#1e3a5f] text-white px-6 py-3 rounded-xl font-bold">Join</button>
-          </div>
-        </div>
-        <div><h4 class="text-white font-bold mb-6">Explore</h4>
-          <ul class="space-y-4 text-sm">
-            <li><a href="index.html" class="hover:text-[#60a5fa]">Home</a></li>
-            <li><a href="about.html" class="hover:text-[#60a5fa]">Our Vision</a></li>
-            <li><a href="services.html" class="hover:text-[#60a5fa]">Services</a></li>
-            <li><a href="portfolio.html" class="hover:text-[#60a5fa]">Projects</a></li>
-            <li><a href="contact.html" class="hover:text-[#60a5fa]">Contact</a></li>
-          </ul>
-        </div>
-        <div><h4 class="text-white font-bold mb-6">Contact</h4>
-          <ul class="space-y-4 text-sm">
-            <li><i class="fas fa-envelope text-[#dc2626] mr-2"></i>Salmanparismufti@gmail.com</li>
-            <li><i class="fas fa-phone text-[#dc2626] mr-2"></i>+1(202)956-9850</li>
-            <li class="flex gap-4 pt-4">
-              <a href="#" class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center"><i class="fab fa-facebook-f"></i></a>
-              <a href="#" class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center"><i class="fab fa-linkedin-in"></i></a>
-              <a href="#" class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center"><i class="fab fa-tiktok"></i></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-        <p>© 2026 Cyfer Solutions</p>
-        <div class="flex gap-6">
-          <a href="#" class="hover:text-white">Privacy</a>
-          <a href="#" class="hover:text-white">Terms</a>
-        </div>
-      </div>
-    </div>
-  </footer>`;
-}
-
-// Active navigation
+// Set active nav - ONLY ONE at a time (never Home + About both active)
 function setActiveNav() {
-  const path = window.location.pathname.toLowerCase();
+  const path = (window.location.pathname || window.location.href || '').toLowerCase();
   const page = path.includes('about') ? 'about' : 
                path.includes('services') ? 'services' : 
                path.includes('portfolio') ? 'portfolio' : 
@@ -114,10 +52,47 @@ function setActiveNav() {
   
   document.querySelectorAll('.nav-link').forEach(link => {
     link.classList.remove('nav-active');
-    if ((link.getAttribute('data-page') || '').includes(page)) {
+    if ((link.getAttribute('data-page') || '').toLowerCase() === page) {
       link.classList.add('nav-active');
     }
   });
+}
+
+// Service select - custom dropdown with blue hover (like user's reference)
+function initServiceSelect() {
+  const select = document.getElementById('service');
+  if (!select) return;
+  const options = Array.from(select.options).map(o => ({ value: o.value, text: o.text }));
+  if (options.length <= 1) return;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'cyfer-select-wrapper relative';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'contact-input w-full px-6 py-4 glass border border-slate-200 dark:border-slate-800 rounded-2xl focus:ring-2 focus:ring-[#1d4ed8] outline-none text-left flex items-center justify-between';
+  btn.innerHTML = '<span class="select-text">Select a service</span><i class="fas fa-chevron-down text-slate-500"></i>';
+  const dropdown = document.createElement('div');
+  dropdown.className = 'cyfer-dropdown absolute left-0 right-0 top-full mt-1 py-2 rounded-xl bg-slate-800 dark:bg-slate-900 border border-slate-700 shadow-xl z-50 hidden';
+  options.forEach(opt => {
+    const item = document.createElement('div');
+    item.className = 'px-4 py-3 cursor-pointer text-slate-300 hover:bg-[#1d4ed8] hover:text-white transition-colors';
+    item.textContent = opt.text;
+    item.dataset.value = opt.value;
+    item.addEventListener('click', () => {
+      select.value = opt.value;
+      btn.querySelector('.select-text').textContent = opt.text;
+      dropdown.classList.add('hidden');
+    });
+    dropdown.appendChild(item);
+  });
+  wrapper.appendChild(btn);
+  wrapper.appendChild(dropdown);
+  select.parentNode.insertBefore(wrapper, select);
+  select.style.position = 'absolute'; select.style.opacity = '0'; select.style.pointerEvents = 'none'; select.style.width = '0';
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle('hidden');
+  });
+  document.addEventListener('click', () => dropdown.classList.add('hidden'));
 }
 
 // Theme toggle
@@ -125,129 +100,117 @@ function initThemeToggle() {
   const btn = document.getElementById('theme-toggle');
   const icon = document.getElementById('theme-icon');
   if (!btn || !icon) return;
-  
-  function update() {
-    const dark = document.documentElement.classList.contains('dark');
-    icon.classList.toggle('fa-moon', !dark);
-    icon.classList.toggle('fa-sun', dark);
-    icon.classList.toggle('text-slate-600', !dark);
-    icon.classList.toggle('text-yellow-400', dark);
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
+
+  function updateUI() {
+    if (document.documentElement.classList.contains('dark')) {
+      icon.classList.replace('fa-moon', 'fa-sun');
+      icon.classList.add('text-yellow-400');
+      icon.classList.remove('text-slate-600');
+    } else {
+      icon.classList.replace('fa-sun', 'fa-moon');
+      icon.classList.add('text-slate-600');
+      icon.classList.remove('text-yellow-400');
+    }
   }
-  update();
-  
+  updateUI();
   btn.addEventListener('click', () => {
     document.documentElement.classList.toggle('dark');
-    update();
+    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    updateUI();
   });
 }
 
-// Contact form
+// AOS init
+function initAOS() {
+  if (typeof AOS !== 'undefined') {
+    AOS.init({ duration: 1000, once: true });
+  }
+}
+
+// Contact form handler
 function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
-  
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    const btn = this.querySelector('button[type="submit"]');
-    const original = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
-    btn.disabled = true;
-    
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+    submitBtn.disabled = true;
     setTimeout(() => {
-      alert('Thank you! Your message has been sent successfully.');
+      alert('Thank you! Your message has been sent successfully. We will get back to you within 24 hours.');
       this.reset();
-      btn.innerHTML = original;
-      btn.disabled = false;
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
     }, 1500);
   });
 }
 
-// Portfolio filter
+// Portfolio filter + counter
 function initPortfolioFilter() {
-  const filters = document.querySelectorAll('.filter-btn');
-  const cards = document.querySelectorAll('.project-card');
-  
-  if (filters.length && cards.length) {
-    filters.forEach(btn => btn.addEventListener('click', function() {
-      filters.forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      const filter = this.getAttribute('data-filter');
-      
-      cards.forEach(card => {
-        const cat = card.getAttribute('data-category') || '';
-        if (filter === 'all' || cat.includes(filter)) {
-          card.style.display = 'block';
-          setTimeout(() => card.style.opacity = '1', 10);
-        } else {
-          card.style.opacity = '0';
-          setTimeout(() => card.style.display = 'none', 300);
-        }
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+  if (filterButtons.length && projectCards.length) {
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+        const filterValue = this.getAttribute('data-filter');
+        projectCards.forEach(card => {
+          const cat = card.getAttribute('data-category') || '';
+          if (filterValue === 'all' || cat.includes(filterValue)) {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => { card.style.display = 'none'; }, 300);
+          }
+        });
       });
-    }));
+    });
   }
-  
-  // Counter animation
-  const stats = document.getElementById('stats-section');
-  if (stats) {
-    new IntersectionObserver(e => {
-      if (e[0].isIntersecting) {
-        counter('projects-count', 24, '+');
-        counter('clients-count', 15, '+');
-        counter('retention-count', 98, '%');
-        counter('users-count', 50000, '+');
+  // Portfolio counter animation
+  const statsSection = document.getElementById('stats-section');
+  if (statsSection) {
+    const animateCounter = (el, final, suffix) => {
+      if (!el) return;
+      let start = 0, startTime = null;
+      function update(ts) {
+        if (!startTime) startTime = ts;
+        const p = Math.min((ts - startTime) / 2000, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        const v = Math.floor(ease * final);
+        el.textContent = (suffix === '%' ? v + suffix : v.toLocaleString() + suffix);
+        if (v < final) requestAnimationFrame(update);
+        else el.textContent = (suffix === '%' ? final + suffix : final.toLocaleString() + suffix);
       }
-    }, { threshold: 0.3 }).observe(stats);
+      requestAnimationFrame(update);
+    };
+    const obs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        obs.disconnect();
+        setTimeout(() => animateCounter(document.getElementById('projects-count'), 24, '+'), 200);
+        setTimeout(() => animateCounter(document.getElementById('clients-count'), 15, '+'), 500);
+        setTimeout(() => animateCounter(document.getElementById('retention-count'), 98, '%'), 800);
+        setTimeout(() => animateCounter(document.getElementById('users-count'), 50000, '+'), 1100);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(statsSection);
   }
 }
 
-// Counter helper
-function counter(id, target, suffix) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  let count = 0;
-  const inc = target / 50;
-  const timer = setInterval(() => {
-    count += inc;
-    if (count >= target) {
-      count = target;
-      clearInterval(timer);
-    }
-    el.textContent = suffix === '%' ? 
-      Math.floor(count) + suffix : 
-      Math.floor(count).toLocaleString() + suffix;
-  }, 40);
-}
-
-// Initialize AOS
-function initAOS() {
-  if (typeof AOS !== 'undefined') {
-    AOS.init({ duration: 800, once: true });
-  }
-}
-
-// Initialize everything
 function initApp() {
   setActiveNav();
   initThemeToggle();
+  initServiceSelect();
   initContactForm();
   initPortfolioFilter();
   initAOS();
-  
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
-      if (href.startsWith('#')) {
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
 }
 
-// Start
+// Run when DOM ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', loadComponents);
 } else {
