@@ -1,25 +1,42 @@
-<!-- components/header.html (Minimal version) -->
 <header class="sticky top-4 z-50 mx-auto max-w-6xl px-4">
-    <nav class="glass border border-white dark:border-slate-800 rounded-2xl px-6 py-3 flex items-center justify-between shadow-lg bg-white">
+    <nav class="glass border border-white dark:border-slate-800 rounded-2xl px-6 py-3 flex items-center justify-between shadow-lg bg-white dark:bg-slate-900">
         <a href="index.html" class="flex items-center gap-2 group">
-            <!-- FIXED LOGO: Shorter height, wider width -->
-        <img 
-    src="assets/image.png" 
-    alt="Cyfer Solutions" 
-    class="
-        rounded-2xl
-        h-14 w-auto                   /* Height fixed, width automatic */
-        min-w-[220px] max-w-[180px]   /* Width constraints */
-        object-contain                /* Fit inside without cropping */
-        
-        contrast-110                  /* Colors vivid */
-        drop-shadow-sm               /* Soft shadow for depth */
-        hover:scale-105              /* Hover animation */
-        transition-transform duration-300 /* Smooth transition */
-        mix-blend-mode-darken         /* White background hide */
-        dark:mix-blend-mode-normal    /* Dark mode fix */
-        dark:invert-[0.05]           /* Dark mode adjustment */
-"></a>
+            <!-- Light Mode Logo (image.png) -->
+            <img 
+                id="logo-light"
+                src="assets/image.png" 
+                alt="Cyfer Solutions" 
+                class="
+                    rounded-2xl
+                    h-14 w-auto
+                    min-w-[180px] max-w-[220px]
+                    object-contain
+                    contrast-110
+                    drop-shadow-sm
+                    hover:scale-105
+                    transition-all duration-300
+                    mix-blend-mode-darken
+                    dark:hidden
+                ">
+            
+            <!-- Dark Mode Logo (darkmoodlogo.png) -->
+            <img 
+                id="logo-dark"
+                src="assets/darkmoodlogo.png" 
+                alt="Cyfer Solutions" 
+                class="
+                    rounded-2xl
+                    h-14 w-auto
+                    min-w-[180px] max-w-[220px]
+                    object-contain
+                    contrast-110
+                    drop-shadow-sm
+                    hover:scale-105
+                    transition-all duration-300
+                    hidden dark:block
+                    dark:mix-blend-mode-normal
+                ">
+        </a>
 
         <div class="hidden md:flex items-center gap-8 text-sm font-semibold">
             <a href="index.html" class="nav-link text-slate-700 dark:text-slate-300 hover:text-[#1e3a5f] dark:hover:text-blue-400 transition-colors" data-page="index">Home</a>
